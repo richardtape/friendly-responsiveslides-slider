@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name: Friendly ResponsiveSlides Slider
- * Description: A widget and shortcode to easily implement the amazing ResponsiveSlides jQuery Slider. All of the hard work by @viljamis
- * Version: 0.1
- *
- * License: GPL2
+ Plugin Name: Friendly ResponsiveSlides Slider
+ Description: A widget and shortcode to easily implement the amazing ResponsiveSlides jQuery Slider. All of the hard work by @viljamis
+ Version: 0.1
+ 
+ License: GPL2
  */
 
 
