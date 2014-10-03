@@ -1,10 +1,10 @@
 <?php
 /**
-Plugin Name: Friendly ResponsiveSlides Slider
-Description: A widget and shortcode to easily implement the amazing ResponsiveSlides jQuery Slider. All of the hard work by @viljamis
-Version: 0.1
-
-License: GPL2
+* Plugin Name: Friendly ResponsiveSlides Slider
+* Description: A widget and shortcode to easily implement the amazing ResponsiveSlides jQuery Slider. All of the hard work by @viljamis
+* Version: 0.1.1
+*
+* License: GPL2
 */
 
 
@@ -21,7 +21,7 @@ License: GPL2
 		 */
 	
 	
-		const version = '0.1';
+		const version = '0.1.1';
 	
 	
 		/**
@@ -33,16 +33,16 @@ License: GPL2
 		 * @since 0.1
 		 */	
 	
-		function init()
+		public function __construct()
 		{
 		
-			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'add_scripts' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'add_scripts' ) );
 			
-			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'add_styles' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'add_styles' ) );
 			
-			add_action( 'admin_init', array( __CLASS__, 'add_i18n' ) );
+			add_action( 'admin_init', array( $this, 'add_i18n' ) );
 			
-			add_action( 'plugins_loaded', array( __CLASS__, 'load_shortcode_and_widget' ) );
+			add_action( 'plugins_loaded', array( $this, 'load_shortcode_and_widget' ) );
 		
 		}/* init() */
 	
@@ -56,16 +56,16 @@ License: GPL2
 		 * @since 0.1
 		 */
 	
-		function add_scripts()
+		public static function add_scripts()
 		{
 		
-			if( !is_admin() )
-			{
-				
-				wp_enqueue_script( 'jquery' );
-				wp_enqueue_script( 'responsiveslides-slider-js',  self::get_url( '_a/js/responsiveslides.min.js' ), array( 'jquery' ), self::version, true );	
-				
+			if( is_admin() ){
+				return;
 			}
+
+			wp_enqueue_script( 'jquery' );
+			wp_enqueue_script( 'responsiveslides-slider-js',  static::get_url( '_a/js/responsiveslides.min.js' ), array( 'jquery' ), static::version, true );	
+
 		
 		}/* add_scripts */
 		
@@ -79,15 +79,14 @@ License: GPL2
 		 * @since 0.1
 		 */
 		 
-		function add_styles()
+		public static function add_styles()
 		{
 			
-			if( !is_admin() )
-			{
-				
-				wp_enqueue_style( 'responsiveslides-slider-css', self::get_url( '_a/css/responsiveslides.css' ), '', self::version, 'screen' );
-				
+			if( is_admin() ){
+				return;
 			}
+			
+			wp_enqueue_style( 'responsiveslides-slider-css', static::get_url( '_a/css/responsiveslides.css' ), '', static::version, 'screen' );
 			
 		}/* add_styles() */
 		
@@ -101,10 +100,10 @@ License: GPL2
 		 * @since 0.1
 		 */
 		
-		function add_i18n()
+		public static function add_i18n()
 		{
 		
-			load_plugin_textdomain( 'frss', false, self::get_url( 'lang' ) );
+			load_plugin_textdomain( 'frss', false, static::get_url( 'lang' ) );
 	
 		}/* add_i18n */
 	
@@ -118,7 +117,7 @@ License: GPL2
 		 * @since 0.1
 		 */
 		 
-		function load_shortcode_and_widget()
+		public static function load_shortcode_and_widget()
 		{
 			
 			require( '_shortcode/responsiveslides.php' );
@@ -137,7 +136,7 @@ License: GPL2
 		 * @since 0.1
 		 */
 	
-		public function get_url( $path = '' )
+		public static function get_url( $path = '' )
 		{
 		
 			return plugins_url( ltrim( $path, '/' ), __FILE__ );
@@ -157,6 +156,6 @@ License: GPL2
 	 * @since 0.1
 	 */
 	
-	friendly_rs_slider::init();
+	$friendly_rs_slider = new friendly_rs_slider;
 
 ?>

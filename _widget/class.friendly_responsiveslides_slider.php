@@ -95,14 +95,14 @@
 									<?php
 										$image_id = get_post_thumbnail_id();  
 										$image_url = wp_get_attachment_image_src( $image_id, 'slider-fullwidth-tall' );  
-										$image_url = $image_url[0];
+										$image_url = ( isset( $image_url[0] ) ) ? $image_url[0] : false;
 										$title = get_the_title();
 										
 										$slide_link = get_post_meta( get_the_ID(), "slide_link", true );
 									?>
 	
 									<?php if( $slide_link && $slide_link != "" ) : ?><a href="<?php echo $slide_link; ?>" title=""><?php endif; ?>
-									<img src="<?php echo $image_url; ?>" alt="<?php echo $title; ?>" title="<?php echo $title; ?>" />
+									<?php if( $image_url !== false ) : ?><img src="<?php echo $image_url; ?>" alt="<?php echo $title; ?>" title="<?php echo $title; ?>" /><?php endif; ?>
 									<?php if( $slide_link && $slide_link != "" ) : ?></a><?php endif; ?>
 	
 								<?php endif; ?>
@@ -172,7 +172,9 @@
 					array(
 						'post_cat' => '1',
 						'num_to_show' => '3',
-						'slideshow_interval' => '6000'
+						'slideshow_interval' => '6000',
+						'bullets' => '1',
+						'arrows' => '1'
 					)
 				
 				);
@@ -271,17 +273,13 @@
 				
 				global $style_dir;
 				
-				if( is_admin() )
-				{
+				if( is_admin() ){
+					return;
 					//Nothing just yet
 				}
-				else
-				{
 				
-		      		$this->load_file( 'responsiveslides-slider-js', friendly_rs_slider::get_url( '_a/js/responsiveslides.min.js' ), true );
-		      		$this->load_file( 'responsiveslides-slider-css', friendly_rs_slider::get_url( '_a/css/responsiveslides.css' ), false );
-		      		
-				}
+				$this->load_file( 'responsiveslides-slider-js', friendly_rs_slider::get_url( '_a/js/responsiveslides.min.js' ), true );
+		      	$this->load_file( 'responsiveslides-slider-css', friendly_rs_slider::get_url( '_a/css/responsiveslides.css' ), false );
 	
 			}/* register_scripts_and_styles() */
 		
@@ -332,7 +330,7 @@
 				$strip_id = explode( "widget-", $container_id );
 				$strip_id = explode( "-container_id", $strip_id[1] );
 				
-				if( $autoplay === false ){ $autoplay_res = "false"; }else{ $autoplay_res = "true"; }
+				// if( $autoplay === false ){ $autoplay_res = "false"; }else{ $autoplay_res = "true"; }
 				
 				if( $bullets == 1 ){ $pager = "true"; }else{ $pager = "false"; }
 				if( $arrows == 1 ){ $nav = "true"; }else{ $nav = "false"; }
