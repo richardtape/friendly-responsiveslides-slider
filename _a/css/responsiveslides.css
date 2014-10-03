@@ -98,6 +98,7 @@
 		width: 38px;
 		background: transparent url( '../images/responsiveslides.gif' ) no-repeat left top;
 		margin-top: -45px;
+		z-index: 99;
 	}
 
 	.rslides_nav:active,
