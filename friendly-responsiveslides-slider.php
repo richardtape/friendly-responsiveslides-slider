@@ -8,8 +8,7 @@
 */
 
 
-	class friendly_rs_slider
-	{
+	class friendly_rs_slider {
 
 		/**
 		 * Our version number, allows us to check for support in the future and also to version our CSS/JS
@@ -33,8 +32,7 @@
 		 * @since 0.1
 		 */
 
-		public function __construct()
-		{
+		public function __construct() {
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'add_scripts' ) );
 
@@ -56,8 +54,7 @@
 		 * @since 0.1
 		 */
 
-		public static function add_scripts()
-		{
+		public static function add_scripts() {
 
 			if ( is_admin() ) {
 				return;
@@ -78,8 +75,7 @@
 		 * @since 0.1
 		 */
 
-		public static function add_styles()
-		{
+		public static function add_styles() {
 
 			if ( is_admin() ) {
 				return;
@@ -99,8 +95,7 @@
 		 * @since 0.1
 		 */
 
-		public static function add_i18n()
-		{
+		public static function add_i18n() {
 
 			load_plugin_textdomain( 'frss', false, static::get_url( 'lang' ) );
 
@@ -116,8 +111,7 @@
 		 * @since 0.1
 		 */
 
-		public static function load_shortcode_and_widget()
-		{
+		public static function load_shortcode_and_widget() {
 
 			require( '_shortcode/responsiveslides.php' );
 
@@ -135,8 +129,7 @@
 		 * @since 0.1
 		 */
 
-		public static function get_url( $path = '' )
-		{
+		public static function get_url( $path = '' ) {
 
 			return plugins_url( ltrim( $path, '/' ), __FILE__ );
 

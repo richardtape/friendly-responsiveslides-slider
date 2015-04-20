@@ -1,7 +1,6 @@
 <?php
 
-	if ( ! class_exists( 'friendly_responsiveslides_slider' ) )
-	{
+	if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 
 		/**
 		 * ResponsiveSlides Slider Widget
@@ -12,8 +11,7 @@
 		 * @since 0.1
 		 */
 
-		class friendly_responsiveslides_slider extends WP_Widget
-		{
+		class friendly_responsiveslides_slider extends WP_Widget {
 
 			const name = 'Friendly ResponsiveSlides Slider';
 			const locale = 'frss';
@@ -31,8 +29,7 @@
 			 * @since 0.1
 			 */
 
-			function friendly_responsiveslides_slider()
-			{
+			function friendly_responsiveslides_slider() {
 
 				$widget_opts = array(
 					'classname' => 'friendly_responsiveslides_slider',
@@ -60,8 +57,7 @@
 			 * @since 0.1
 			 */
 
-			function widget( $args, $instance )
-			{
+			function widget( $args, $instance ) {
 
 				//Extract the widget arguments
 				extract( $args, EXTR_SKIP );
@@ -135,8 +131,7 @@
 			 * @since 0.1
 			 */
 
-			function update( $new_instance, $old_instance )
-			{
+			function update( $new_instance, $old_instance ) {
 
 				$instance = $old_instance;
 
@@ -161,8 +156,7 @@
 			  * @since 0.1
 			  */
 
-			function form( $instance )
-			{
+			function form( $instance ) {
 
 		    	//Default Values
 				$instance = wp_parse_args(
@@ -265,14 +259,12 @@
 			 * @since 0.1
 			 */
 
-			private function register_scripts_and_styles()
-			{
+			private function register_scripts_and_styles() {
 
 				global $style_dir;
 
-				if ( is_admin() ){
+				if ( is_admin() ) {
 					return;
-					//Nothing just yet
 				}
 
 				$this->load_file( 'responsiveslides-slider-js', friendly_rs_slider::get_url( '_a/js/responsiveslides.min.js' ), true );
@@ -292,18 +284,14 @@
 			 * @since 0.1
 			 */
 
-			function load_file( $name, $file_path, $is_script = false )
-			{
+			function load_file( $name, $file_path, $is_script = false ) {
 
 				$url = $file_path;
 
-				if ( $is_script )
-				{
+				if ( $is_script ) {
 					wp_register_script( $name, $url, '' , '', true );
 					wp_enqueue_script( $name );
-				}
-				else
-				{
+				} else {
 					wp_register_style( $name, $url, '', '', false );
 					wp_enqueue_style( $name );
 				}
@@ -320,8 +308,7 @@
 			 * @since 1.0
 			 */
 
-			function friendly_responsiveslides_slider_helper( $container_id = NULL, $slideshow_interval = 5000, $bullets = 'false', $arrows = 'false')
-			{
+			function friendly_responsiveslides_slider_helper( $container_id = NULL, $slideshow_interval = 5000, $bullets = 'false', $arrows = 'false') {
 
 				//$container_id is something like "widget-friendly_responsiveslides_slider-3-container_id", need to strip it
 				$strip_id = explode( "widget-", $container_id );
@@ -332,7 +319,8 @@
 				} else {
 					$pager = "false";
 				}
-				if ( $arrows == 1 ){
+
+				if ( $arrows == 1 ) {
 					$nav = "true";
 				} else {
 					$nav = "false";
