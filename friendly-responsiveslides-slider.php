@@ -10,7 +10,7 @@
 
 	class friendly_rs_slider
 	{
-	
+
 		/**
 		 * Our version number, allows us to check for support in the future and also to version our CSS/JS
 		 *
@@ -19,11 +19,11 @@
 		 * @version 0.1
 		 * @since 0.1
 		 */
-	
-	
+
+
 		const version = '0.1.1';
-	
-	
+
+
 		/**
 		 * Initialise ourselves by enqueuing javascript and css, as well as setting our i18n location. Then load the widget/shortcode
 		 *
@@ -31,22 +31,22 @@
 		 * @author iamfriendly
 		 * @version 0.1
 		 * @since 0.1
-		 */	
-	
+		 */
+
 		public function __construct()
 		{
-		
+
 			add_action( 'wp_enqueue_scripts', array( $this, 'add_scripts' ) );
-			
+
 			add_action( 'wp_enqueue_scripts', array( $this, 'add_styles' ) );
-			
+
 			add_action( 'admin_init', array( $this, 'add_i18n' ) );
-			
+
 			add_action( 'plugins_loaded', array( $this, 'load_shortcode_and_widget' ) );
-		
+
 		}/* init() */
-	
-	
+
+
 		/**
 		 * Enqueue the javascript that we need
 		 *
@@ -55,21 +55,20 @@
 		 * @version 0.1
 		 * @since 0.1
 		 */
-	
+
 		public static function add_scripts()
 		{
-		
-			if( is_admin() ){
+
+			if ( is_admin() ) {
 				return;
 			}
 
 			wp_enqueue_script( 'jquery' );
-			wp_enqueue_script( 'responsiveslides-slider-js',  static::get_url( '_a/js/responsiveslides.min.js' ), array( 'jquery' ), static::version, true );	
+			wp_enqueue_script( 'responsiveslides-slider-js',  static::get_url( '_a/js/responsiveslides.min.js' ), array( 'jquery' ), static::version, true );
 
-		
 		}/* add_scripts */
-		
-		
+
+
 		/**
 		 * Enqueue the stylesheet
 		 *
@@ -78,19 +77,19 @@
 		 * @version 0.1
 		 * @since 0.1
 		 */
-		 
+
 		public static function add_styles()
 		{
-			
-			if( is_admin() ){
+
+			if ( is_admin() ) {
 				return;
 			}
-			
+
 			wp_enqueue_style( 'responsiveslides-slider-css', static::get_url( '_a/css/responsiveslides.css' ), '', static::version, 'screen' );
-			
+
 		}/* add_styles() */
-		
-		
+
+
 		/**
 		 * Ensure we can internationalise our widget text
 		 *
@@ -99,15 +98,15 @@
 		 * @version 0.1
 		 * @since 0.1
 		 */
-		
+
 		public static function add_i18n()
 		{
-		
+
 			load_plugin_textdomain( 'frss', false, static::get_url( 'lang' ) );
-	
+
 		}/* add_i18n */
-	
-		
+
+
 		/**
 		 * Load our widget and shortcode class/functions
 		 *
@@ -116,17 +115,17 @@
 		 * @version 0.1
 		 * @since 0.1
 		 */
-		 
+
 		public static function load_shortcode_and_widget()
 		{
-			
+
 			require( '_shortcode/responsiveslides.php' );
-			
+
 			require( '_widget/class.friendly_responsiveslides_slider.php' );
-			
+
 		}/* load_shortcode_and_widget() */
-		
-		
+
+
 		/**
 		 * Helper function to more easily allow us to get a web-friendly URL, mainly for use in loading js/css
 		 *
@@ -135,18 +134,18 @@
 		 * @version 0.1
 		 * @since 0.1
 		 */
-	
+
 		public static function get_url( $path = '' )
 		{
-		
+
 			return plugins_url( ltrim( $path, '/' ), __FILE__ );
-		
+
 		}/* get_url() */
-		
-		
+
+
 	}/* class friendly_rs_slider */
-	
-	
+
+
 	/**
 	 * Begin!
 	 *
@@ -155,7 +154,7 @@
 	 * @version 0.1
 	 * @since 0.1
 	 */
-	
+
 	$friendly_rs_slider = new friendly_rs_slider;
 
 ?>
