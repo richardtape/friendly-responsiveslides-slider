@@ -22,6 +22,12 @@ if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 		const locale = 'frss';
 		const slug = 'friendly_responsiveslides_slider';
 
+		public static $post_cat = null;
+		public static $num_to_show = null;
+		public static $container_id = null;
+		public static $slideshow_interval = null;
+		public static $bullets = null;
+		public static $arrows = null;
 
 		/**
 		 * The widget constructor. Specifies the classname and description, instantiates
@@ -71,12 +77,19 @@ if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 			echo $before_widget;
 
 			//Retrieve each of the options from the widget
-			$post_cat = $instance['post_cat'];
-	    	$num_to_show = $instance['num_to_show'];
-	    	$container_id = $instance['container_id'];
+			$post_cat 			= $instance['post_cat'];
+	    	$num_to_show 		= $instance['num_to_show'];
+	    	$container_id 		= $instance['container_id'];
 	    	$slideshow_interval = $instance['slideshow_interval'];
-	    	$bullets = $instance['bullets'];
-	    	$arrows = $instance['arrows'];
+	    	$bullets 			= $instance['bullets'];
+	    	$arrows 			= $instance['arrows'];
+
+			static::$post_cat 			= $post_cat;
+			static::$num_to_show 		= $num_to_show;
+			static::$container_id 		= $container_id;
+			static::$slideshow_interval = $slideshow_interval;
+			static::$bullets 			= $bullets;
+			static::$arrows 			= $arrows;
 
 	    	//Ensure we're only skipping through the posts we need
 			$post_args = array( 'posts_per_page' => $num_to_show, 'cat' => $post_cat );
@@ -90,8 +103,8 @@ if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 
 						<?php while ( $frss->have_posts() ) : $frss->the_post(); global $style_dir; ?>
 
-						<li>
 							<?php if ( has_post_thumbnail() ) : ?>
+								<li>
 
 								<?php
 									$image_id = get_post_thumbnail_id();
@@ -106,9 +119,9 @@ if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 								<?php if ( $image_url !== false ) : ?><img src="<?php echo $image_url; ?>" alt="<?php echo $title; ?>" title="<?php echo $title; ?>" /><?php endif; ?>
 								<?php if ( $slide_link && $slide_link != "" ) : ?></a><?php endif; ?>
 
-							<?php endif; ?>
 
-			            </li>
+			            		</li>
+							<?php endif; ?>
 
 			            <?php endwhile; wp_reset_postdata(); ?>
 
@@ -122,7 +135,7 @@ if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 			echo $after_widget;
 
 			//Load our JS in the footer
-			add_action( 'wp_footer', $this->friendly_responsiveslides_slider_helper( $container_id, $slideshow_interval, $bullets, $arrows ) );
+			add_action( 'wp_footer', array( $this, 'friendly_responsiveslides_slider_helper' ), 999 );
 
 		}/* widget() */
 
@@ -313,39 +326,42 @@ if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 		 * @since 1.0
 		 */
 
-		function friendly_responsiveslides_slider_helper( $container_id = NULL, $slideshow_interval = 5000, $bullets = 'false', $arrows = 'false') {
+		function friendly_responsiveslides_slider_helper() {
 
 			//$container_id is something like "widget-friendly_responsiveslides_slider-3-container_id", need to strip it
-			$strip_id = explode( "widget-", $container_id );
+			$strip_id = explode( "widget-", static::$container_id );
 			$strip_id = explode( "-container_id", $strip_id[1] );
 
-			if ( $bullets == 1 ) {
+			if ( static::$bullets == 1 ) {
 				$pager = "true";
 			} else {
 				$pager = "false";
 			}
 
-			if ( $arrows == 1 ) {
+			if ( static::$arrows == 1 ) {
 				$nav = "true";
 			} else {
 				$nav = "false";
 			}
 
-			$slideshow_interval = ( $slideshow_interval != "" ) ? $slideshow_interval : "6000";
+			$slideshow_interval = ( static::$slideshow_interval != "" ) ? static::$slideshow_interval : "6000";
 
 			?>
 
 <script type="text/javascript">
 jQuery(document).ready(function($) {
 
-	 jQuery('.rslides').responsiveSlides({
+	$(document).on( 'ready', function(){
 
-	 	timeout : <?php echo $slideshow_interval; ?>,
-	 	pager: <?php echo $pager; ?>,
-	 	nav: <?php echo $nav; ?>,
-	 	speed: 700
+		jQuery('#<?php echo esc_attr__( $strip_id[0] ); ?> .rslides').responsiveSlides({
 
-	 });
+			timeout: <?php echo esc_attr( absint( $slideshow_interval ) ); ?>,
+			pager: <?php echo esc_attr__( $pager ); ?>,
+			nav: <?php echo esc_attr__( $nav ); ?>
+
+		});
+
+	} );
 
 });
 </script>

@@ -44,7 +44,7 @@ class friendly_rs_slider {
 
 		add_action( 'admin_init', array( $this, 'add_i18n' ) );
 
-		add_action( 'plugins_loaded', array( $this, 'load_shortcode_and_widget' ) );
+		add_action( 'after_setup_theme', array( $this, 'load_shortcode_and_widget' ) );
 
 	}/* init() */
 
@@ -143,6 +143,8 @@ class friendly_rs_slider {
 }/* class friendly_rs_slider */
 
 
+add_action( 'plugins_loaded', 'friendly_rs_slider_init' );
+
 /**
  * Begin!
  *
@@ -152,7 +154,11 @@ class friendly_rs_slider {
  * @since 0.1
  */
 
-$friendly_rs_slider = new friendly_rs_slider;
-$friendly_rs_slider->init();
+function friendly_rs_slider_init() {
+
+	$friendly_rs_slider = new friendly_rs_slider;
+	$friendly_rs_slider->init();
+
+}/* friendly_rs_slider_init() */
 
 ?>
