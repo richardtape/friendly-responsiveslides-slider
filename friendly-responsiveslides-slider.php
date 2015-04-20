@@ -36,7 +36,7 @@ class friendly_rs_slider {
 	 * @since 0.1
 	 */
 
-	public function __construct() {
+	public function init() {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'add_scripts' ) );
 
@@ -153,5 +153,6 @@ class friendly_rs_slider {
  */
 
 $friendly_rs_slider = new friendly_rs_slider;
+$friendly_rs_slider->init();
 
 ?>
