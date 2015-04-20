@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *				rather than having to manually put the urls in. Soon my precious.
  */
 
- if ( ! function_exists( 'friendly_shortcode_responsive_slides_slider' ) ) :
+if ( ! function_exists( 'friendly_shortcode_responsive_slides_slider' ) ) :
 
 	function friendly_shortcode_responsive_slides_slider( $atts, $content = null ) {
 
@@ -41,56 +41,55 @@ if ( ! defined( 'ABSPATH' ) ) {
 			'prevText' => 'Previous',
 			'nextText' => 'Next',
 			'maxwidth' => '',
-			'namespace' => 'shortcode_rslides'
+			'namespace' => 'shortcode_rslides',
 		 ), $atts ) );
 
-		if ( $image_1 != "" ) {
+		if ( $image_1 != '' ) {
 
 			global $post; $post_id = $post->ID;
 			$out = "<div class='rslides_container'><ul class='rslides_shortcode' id='rs_post_".$post_id."'>";
 
 			$out .= "<li><img src='".$image_1."' alt='' /></li>";
 
-			if ( $image_2 && $image_2 != "" ) {
+			if ( $image_2 && $image_2 != '' ) {
 				$out .= "<li><img src='".$image_2."' alt='' /></li>";
 			}
 
-			if ( $image_3 && $image_3 != "" ) {
+			if ( $image_3 && $image_3 != '' ) {
 				$out .= "<li><img src='".$image_3."' alt='' /></li>";
 			}
 
-			if ( $image_4 && $image_4 != "" ) {
+			if ( $image_4 && $image_4 != '' ) {
 				$out .= "<li><img src='".$image_4."' alt='' /></li>";
 			}
 
-			if ( $image_5 && $image_5 != "" ) {
+			if ( $image_5 && $image_5 != '' ) {
 				$out .= "<li><img src='".$image_5."' alt='' /></li>";
 			}
 
-			if ( $image_6 && $image_6 != "" ) {
+			if ( $image_6 && $image_6 != '' ) {
 				$out .= "<li><img src='".$image_6."' alt='' /></li>";
 			}
 
-			if ( $image_7 && $image_7 != "" ) {
+			if ( $image_7 && $image_7 != '' ) {
 				$out .= "<li><img src='".$image_7."' alt='' /></li>";
 			}
 
-			if ( $image_8 && $image_8 != "" ) {
+			if ( $image_8 && $image_8 != '' ) {
 				$out .= "<li><img src='".$image_8."' alt='' /></li>";
 			}
 
-			if ( $image_9 && $image_9 != "" ) {
+			if ( $image_9 && $image_9 != '' ) {
 				$out .= "<li><img src='".$image_9."' alt='' /></li>";
 			}
 
-			if ( $image_10 && $image_10 != "" ) {
+			if ( $image_10 && $image_10 != '' ) {
 				$out .= "<li><img src='".$image_10."' alt='' /></li>";
 			}
 
+			$out .= '</ul></div>';
 
-			$out .= "</ul></div>";
-
-			$out .= "<script>";
+			$out .= '<script>';
 				$out .= "jQuery(document).ready(function($) {
 
 					jQuery( '#rs_post_".$post_id."' ).responsiveSlides({
@@ -107,7 +106,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					});
 
 				});";
-			$out .= "</script>";
+			$out .= '</script>';
 
 		}
 
