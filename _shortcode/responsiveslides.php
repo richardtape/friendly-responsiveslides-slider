@@ -1,5 +1,10 @@
 <?php
 
+// Don't allow the file to be called directly
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
 /**
  * Shortcode for the ResponsiveSlides slider
  *
