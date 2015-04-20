@@ -9,6 +9,8 @@ if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 
 	/**
 	 * ResponsiveSlides Slider Widget
+	 * Unfortunately, this class name was given before I started developing to WP coding style standards
+	 * I don't wish to change it in case others have coded uses this class name
 	 *
 	 * @package Friendly RS Slider
 	 * @author iamfriendly
@@ -49,10 +51,10 @@ if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 
 			$control_opts = array(
 				'width' => 200,
-				'height' => 400
+				'height' => 400,
 			);
 
-			$this->WP_Widget( self::slug, __( self::name, self::locale ), $widget_opts, $control_opts );
+			$this->WP_Widget( self::slug, __( esc_html( self::name ), esc_attr__( self::locale ) ), $widget_opts, $control_opts );
 
 			$this->register_scripts_and_styles();
 
@@ -74,7 +76,7 @@ if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 			extract( $args, EXTR_SKIP );
 
 			//Begin the widget output
-			echo $before_widget;
+			echo wp_kses_post( $before_widget );
 
 			//Retrieve each of the options from the widget
 			$post_cat 			= $instance['post_cat'];
@@ -97,7 +99,7 @@ if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 
 			if ( $frss->have_posts() ) : ?>
 
-				<div id="<?php echo $container_id; ?>" class="widget responsiveslides_slider">
+				<div id="<?php echo esc_attr__( $container_id ); ?>" class="widget responsiveslides_slider">
 
 					<ul class="rslides">
 
@@ -112,12 +114,12 @@ if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 									$image_url = ( isset( $image_url[0] ) ) ? $image_url[0] : false;
 									$title = get_the_title();
 
-									$slide_link = get_post_meta( get_the_ID(), "slide_link", true );
+									$slide_link = get_post_meta( get_the_ID(), 'slide_link', true );
 								?>
 
-								<?php if ( $slide_link && $slide_link != "" ) : ?><a href="<?php echo $slide_link; ?>" title=""><?php endif; ?>
-								<?php if ( $image_url !== false ) : ?><img src="<?php echo $image_url; ?>" alt="<?php echo $title; ?>" title="<?php echo $title; ?>" /><?php endif; ?>
-								<?php if ( $slide_link && $slide_link != "" ) : ?></a><?php endif; ?>
+								<?php if ( $slide_link && $slide_link != '' ) : ?><a href="<?php echo esc_url( $slide_link ); ?>" title=""><?php endif; ?>
+								<?php if ( false !== $image_url ) : ?><img src="<?php echo esc_attr( $image_url ); ?>" alt="<?php echo esc_attr__( $title ); ?>" title="<?php echo esc_attr__( $title ); ?>" /><?php endif; ?>
+								<?php if ( $slide_link && $slide_link != '' ) : ?></a><?php endif; ?>
 
 
 			            		</li>
@@ -132,7 +134,7 @@ if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 	    	<?php endif;
 
 	    	//End the widget output
-			echo $after_widget;
+			echo wp_kses_post( $after_widget );
 
 			//Load our JS in the footer
 			add_action( 'wp_footer', array( $this, 'friendly_responsiveslides_slider_helper' ), 999 );
@@ -184,26 +186,27 @@ if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 					'num_to_show' => '3',
 					'slideshow_interval' => '6000',
 					'bullets' => '1',
-					'arrows' => '1'
+					'arrows' => '1',
 				)
 			);
 
 			// Display the admin form
+			$defaultSelected = ( 'default' == $instance['post_cat'] ) ? 'selected="selected"' : '';
 	    	?>
 
 	    		<p>
 
-					<label for="<?php echo $this->get_field_id( 'post_cat' ); ?>">
-						<?php _e( "Show This Category", 'frss' ); ?>
+					<label for="<?php echo esc_attr( $this->get_field_id( 'post_cat' ) ); ?>">
+						<?php _e( 'Show This Category', 'frss' ); ?>
 					</label>
 
-					<select class="widefat" id="<?php echo $this->get_field_id( 'post_cat' ); ?>" name="<?php echo $this->get_field_name( 'post_cat' ); ?>">
+					<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'post_cat' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'post_cat' ) ); ?>">
 
-						<option value="default"<?php if ( "default" == $instance['post_cat'] ) echo 'selected="selected"'; ?>><?php _e( "Select Category", 'frss' ); ?></option>
+						<option value="default" <?php echo esc_attr( $defaultSelected ); ?>><?php _e( 'Select Category', 'frss' ); ?></option>
 
 						<?php $all_categories = get_categories( 'hide_empty=0' ); foreach ( $all_categories as $category ) : ?>
-							<option value="<?php echo $category->term_id; ?>" <?php if ( $category->term_id == $instance['post_cat'] ) echo 'selected="selected"'; ?>>
-								<?php echo $category->cat_name; ?>
+							<option value="<?php echo esc_attr( absint( $category->term_id ) ); ?>" <?php selected( esc_attr( absint( $category->term_id ) ), $instance['post_cat'] ); ?> >
+								<?php echo esc_html( $category->cat_name ); ?>
 							</option>
 
 						<?php endforeach; ?>
@@ -214,54 +217,54 @@ if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 
 				<p>
 
-					<label for="<?php echo $this->get_field_id( 'num_to_show' ); ?>">
-						<?php _e( "How many slides?", 'frss' ); ?>
+					<label for="<?php echo esc_attr( $this->get_field_id( 'num_to_show' ) ); ?>">
+						<?php _e( 'How many slides?', 'frss' ); ?>
 					</label>
 
-					<select class="widefat" id="<?php echo $this->get_field_id( 'num_to_show' ); ?>" name="<?php echo $this->get_field_name( 'num_to_show' ); ?>">
-						<option value="1" <?php if ( "1" == $instance['num_to_show'] ) echo 'selected="selected"'; ?>>1</option>
-						<option value="2" <?php if ( "2" == $instance['num_to_show'] ) echo 'selected="selected"'; ?>>2</option>
-						<option value="3" <?php if ( "3" == $instance['num_to_show'] ) echo 'selected="selected"'; ?>>3</option>
-						<option value="4" <?php if ( "4" == $instance['num_to_show'] ) echo 'selected="selected"'; ?>>4</option>
-						<option value="5" <?php if ( "5" == $instance['num_to_show'] ) echo 'selected="selected"'; ?>>5</option>
-						<option value="6" <?php if ( "6" == $instance['num_to_show'] ) echo 'selected="selected"'; ?>>6</option>
-						<option value="7" <?php if ( "7" == $instance['num_to_show'] ) echo 'selected="selected"'; ?>>7</option>
-						<option value="8" <?php if ( "8" == $instance['num_to_show'] ) echo 'selected="selected"'; ?>>8</option>
+					<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'num_to_show' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'num_to_show' ) ); ?>">
+						<option value="1" <?php selected( '1', $instance['num_to_show'] ); ?>>1</option>
+						<option value="2" <?php selected( '2', $instance['num_to_show'] ); ?>>2</option>
+						<option value="3" <?php selected( '3', $instance['num_to_show'] ); ?>>3</option>
+						<option value="4" <?php selected( '4', $instance['num_to_show'] ); ?>>4</option>
+						<option value="5" <?php selected( '5', $instance['num_to_show'] ); ?>>5</option>
+						<option value="6" <?php selected( '6', $instance['num_to_show'] ); ?>>6</option>
+						<option value="7" <?php selected( '7', $instance['num_to_show'] ); ?>>7</option>
+						<option value="8" <?php selected( '8', $instance['num_to_show'] ); ?>>8</option>
 					</select>
 
 				</p>
 
 				<p>
 
-					<label for="<?php echo $this->get_field_id( 'slideshow_interval' ); ?>">
-						<?php _e( "Slideshow Interval (in ms)", 'frss' ); ?>:
+					<label for="<?php echo esc_attr( $this->get_field_id( 'slideshow_interval' ) ); ?>">
+						<?php _e( 'Slideshow Interval (in ms)', 'frss' ); ?>:
 					</label>
 
-					<input type="text" id="<?php echo $this->get_field_id( 'slideshow_interval' ); ?>" name="<?php echo $this->get_field_name( 'slideshow_interval' ); ?>" value="<?php echo $instance['slideshow_interval']; ?>" />
+					<input type="text" id="<?php echo esc_attr( $this->get_field_id( 'slideshow_interval' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'slideshow_interval' ) ); ?>" value="<?php echo esc_attr( absint( $instance['slideshow_interval'] ) ); ?>" />
 
 				</p>
 
 				<p>
 
-					<label for="<?php echo $this->get_field_id( 'bullets' ); ?>">
-						<?php _e( "Show Bullets?", 'frss' ); ?>:
+					<label for="<?php echo esc_attr( $this->get_field_id( 'bullets' ) ); ?>">
+						<?php _e( 'Show Bullets?', 'frss' ); ?>:
 					</label>
 
-					<input type="checkbox" id="<?php echo $this->get_field_id( 'bullets' ); ?>" name="<?php echo $this->get_field_name( 'bullets' ); ?>" <?php checked( $instance['bullets'], 1 ); ?> value="1" />
+					<input type="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'bullets' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'bullets' ) ); ?>" <?php checked( $instance['bullets'], 1 ); ?> value="1" />
 
 				</p>
 
 				<p>
 
-					<label for="<?php echo $this->get_field_id( 'arrows' ); ?>">
-						<?php _e( "Show Arrows?", 'frss' ); ?>:
+					<label for="<?php echo esc_attr( $this->get_field_id( 'arrows' ) ); ?>">
+						<?php _e( 'Show Arrows?', 'frss' ); ?>:
 					</label>
 
-					<input type="checkbox" id="<?php echo $this->get_field_id( 'arrows' ); ?>" name="<?php echo $this->get_field_name( 'arrows' ); ?>" <?php checked( $instance['arrows'], 1 ); ?> value="1" />
+					<input type="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'arrows' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'arrows' ) ); ?>" <?php checked( $instance['arrows'], 1 ); ?> value="1" />
 
 				</p>
 
-				<input type="text" id="<?php echo $this->get_field_id( 'container_id' ); ?>" name="<?php echo $this->get_field_name( 'container_id' ); ?>" value="<?php echo $this->get_field_id( 'container_id' ); ?>" />
+				<input type="text" id="<?php echo esc_attr( $this->get_field_id( 'container_id' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'container_id' ) ); ?>" value="<?php echo esc_attr( $this->get_field_id( 'container_id' ) ); ?>" />
 
 	    	<?php
 
@@ -329,22 +332,22 @@ if ( ! class_exists( 'friendly_responsiveslides_slider' ) ) {
 		function friendly_responsiveslides_slider_helper() {
 
 			//$container_id is something like "widget-friendly_responsiveslides_slider-3-container_id", need to strip it
-			$strip_id = explode( "widget-", static::$container_id );
-			$strip_id = explode( "-container_id", $strip_id[1] );
+			$strip_id = explode( 'widget-', static::$container_id );
+			$strip_id = explode( '-container_id', $strip_id[1] );
 
-			if ( static::$bullets == 1 ) {
-				$pager = "true";
+			if ( 1 == static::$bullets ) {
+				$pager = 'true';
 			} else {
-				$pager = "false";
+				$pager = 'false';
 			}
 
-			if ( static::$arrows == 1 ) {
-				$nav = "true";
+			if ( 1 == static::$arrows ) {
+				$nav = 'true';
 			} else {
-				$nav = "false";
+				$nav = 'false';
 			}
 
-			$slideshow_interval = ( static::$slideshow_interval != "" ) ? static::$slideshow_interval : "6000";
+			$slideshow_interval = ( static::$slideshow_interval != '' ) ? static::$slideshow_interval : '6000';
 
 			?>
 

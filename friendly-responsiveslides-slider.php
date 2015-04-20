@@ -119,7 +119,7 @@ class friendly_rs_slider {
 
 		require( '_shortcode/responsiveslides.php' );
 
-		require( '_widget/class.friendly_responsiveslides_slider.php' );
+		require( '_widget/class.friendly-responsiveslides-slider.php' );
 
 	}/* load_shortcode_and_widget() */
 
