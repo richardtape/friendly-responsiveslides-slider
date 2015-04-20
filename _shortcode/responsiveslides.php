@@ -47,44 +47,44 @@ if ( ! function_exists( 'friendly_shortcode_responsive_slides_slider' ) ) :
 		if ( $image_1 != '' ) {
 
 			global $post; $post_id = $post->ID;
-			$out = "<div class='rslides_container'><ul class='rslides_shortcode' id='rs_post_".$post_id."'>";
+			$out = "<div class='rslides_container'><ul class='rslides_shortcode' id='rs_post_".absint( $post_id )."'>";
 
-			$out .= "<li><img src='".$image_1."' alt='' /></li>";
+			$out .= "<li><img src='".esc_url( $image_1 )."' alt='' /></li>";
 
 			if ( $image_2 && $image_2 != '' ) {
-				$out .= "<li><img src='".$image_2."' alt='' /></li>";
+				$out .= "<li><img src='".esc_url( $image_2 )."' alt='' /></li>";
 			}
 
 			if ( $image_3 && $image_3 != '' ) {
-				$out .= "<li><img src='".$image_3."' alt='' /></li>";
+				$out .= "<li><img src='".esc_url( $image_3 )."' alt='' /></li>";
 			}
 
 			if ( $image_4 && $image_4 != '' ) {
-				$out .= "<li><img src='".$image_4."' alt='' /></li>";
+				$out .= "<li><img src='".esc_url( $image_4 )."' alt='' /></li>";
 			}
 
 			if ( $image_5 && $image_5 != '' ) {
-				$out .= "<li><img src='".$image_5."' alt='' /></li>";
+				$out .= "<li><img src='".esc_url( $image_5 )."' alt='' /></li>";
 			}
 
 			if ( $image_6 && $image_6 != '' ) {
-				$out .= "<li><img src='".$image_6."' alt='' /></li>";
+				$out .= "<li><img src='".esc_url( $image_6 )."' alt='' /></li>";
 			}
 
 			if ( $image_7 && $image_7 != '' ) {
-				$out .= "<li><img src='".$image_7."' alt='' /></li>";
+				$out .= "<li><img src='".esc_url( $image_7 )."' alt='' /></li>";
 			}
 
 			if ( $image_8 && $image_8 != '' ) {
-				$out .= "<li><img src='".$image_8."' alt='' /></li>";
+				$out .= "<li><img src='".esc_url( $image_8 )."' alt='' /></li>";
 			}
 
 			if ( $image_9 && $image_9 != '' ) {
-				$out .= "<li><img src='".$image_9."' alt='' /></li>";
+				$out .= "<li><img src='".esc_url( $image_9 )."' alt='' /></li>";
 			}
 
 			if ( $image_10 && $image_10 != '' ) {
-				$out .= "<li><img src='".$image_10."' alt='' /></li>";
+				$out .= "<li><img src='".esc_url( $image_10 )."' alt='' /></li>";
 			}
 
 			$out .= '</ul></div>';
@@ -92,17 +92,17 @@ if ( ! function_exists( 'friendly_shortcode_responsive_slides_slider' ) ) :
 			$out .= '<script>';
 				$out .= "jQuery(document).ready(function($) {
 
-					jQuery( '#rs_post_".$post_id."' ).responsiveSlides({
-						auto: ".$auto.",
-						speed: ".$speed.",
-						timeout: ".$timeout.",
-						pager: ".$pager.",
-						nav: ".$nav.",
-						random: ".$random.",
-						pause: ".$pause.",
-						prevText: '".$prevText."',
-						nextText: '".$nextText."',
-						maxwidth: '".$maxwidth."'
+					jQuery( '#rs_post_".absint( $post_id )."' ).responsiveSlides({
+						auto: ".esc_attr( $auto ).",
+						speed: ".absint( $speed ).",
+						timeout: ".absint( $timeout ).",
+						pager: ".esc_attr( $pager ).",
+						nav: ".esc_attr( $nav ).",
+						random: ".esc_attr( $random ).",
+						pause: ".esc_attr( $pause ).",
+						prevText: '".esc_html( $prevText )."',
+						nextText: '".esc_html( $nextText )."',
+						maxwidth: '".esc_attr( $maxwidth )."'
 					});
 
 				});";
