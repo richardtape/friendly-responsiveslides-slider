@@ -2,8 +2,8 @@
 Contributors: iamfriendly
 Tags: sliders, widget, shortcode, responsive, responsiveslides
 Requires at least: 3.0
-Tested up to: 4.0.0
-Stable tag: 0.1.1
+Tested up to: 4.2.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,12 @@ You can have up to 10 images at the moment. The other params the shortcdoe takes
 Drag the widget into a sidebar and select the posts category you wish to use and the number of images to show. It uses the 'featured image' of your post.
 
 == Changelog ==
+
+=0.2.0=
+Code is now (very, very nearly) WP Coding-standards compliant (couldn't change a couple of method/class names in order to maintain backwards compatibility)
+Escape and Sanitize everything as is sensible
+Fix the widget now having it's own individual settings
+Fix the warning shown if your post didn't have a featured image by making a sane version of the loading the JS in the footer
 
 =0.1.1=
 Removed warnings
